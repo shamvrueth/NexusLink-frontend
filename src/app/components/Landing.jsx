@@ -10,7 +10,7 @@ export default function Landing(){
             <div className="absolute inset-0 z-0">
                 <DotGrid
                     dotSize={2}
-                    gap={15}
+                    gap={50}
                     baseColor="#000"
                     activeColor="#FFF"
                     proximity={120}

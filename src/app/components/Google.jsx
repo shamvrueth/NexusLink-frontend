@@ -26,7 +26,7 @@ export default function Google(){
         try {
             setLoading(true);
             const res = await axios.post(
-                `${process.env.NEXT_PUBLIC_BACKEND_URL}/login/verify-token`,
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/recruiter/login`,
                 {},
                 {
                 headers: {
@@ -35,8 +35,8 @@ export default function Google(){
                 },
             }
         );
-        const userStatus = res.data.status;
-        console.log(userStatus);
+        const userStatus = res.status;
+        console.log(res);
         localStorage.setItem("UserStatus", userStatus);
         localStorage.setItem("AccessToken", accessToken);
         // if (userStatus == 0) {
@@ -49,12 +49,16 @@ export default function Google(){
         //     onLoginSuccess();
         //     window.location.href = "/team";
         // }
+        if (res.status === 200){
+            setLoading(false);
+            window.location.href = "/dashboard"
+        }
         } catch (error) {
-        if (error.response.status === 401) {
+        if (res.status === 401) {
             toast.error("Unable to verify token.Login Again");
             localStorage.removeItem("AccessToken");
             localStorage.removeItem("UserStatus");
-        } else if (error.response && error.response.status === 404) {
+        } else if (error.response && res.status === 404) {
             toast.error("User not registered for event.");
             localStorage.removeItem("AccessToken");
             localStorage.removeItem("UserStatus");
